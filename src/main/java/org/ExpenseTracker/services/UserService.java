@@ -8,4 +8,5 @@ public interface UserService {
     LoginResponse login(LoginRequest request);
     CreateExpenseResponse addExpense(String username, CreateExpenseRequest request);
     LoginResponse getUserByEmail(String email);
+
 }
