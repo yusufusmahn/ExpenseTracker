@@ -13,4 +13,4 @@ public interface ExpenseService {
     boolean deleteExpense(String expenseId);
     List<SearchExpensesResponse> searchExpenses(String userId, String category);
 
-    }
+}
