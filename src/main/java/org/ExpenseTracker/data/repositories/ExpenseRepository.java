@@ -1,7 +1,6 @@
 package org.ExpenseTracker.data.repositories;
 
-import org.ExpenseTracker.data.models.Expense;
-import org.ExpenseTracker.data.models.User;
+import org.ExpenseTracker.data.models.*;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
