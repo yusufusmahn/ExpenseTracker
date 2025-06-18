@@ -12,4 +12,10 @@ public class User {
     private String username;
     private String email;
     private String password;
+
+
+    public boolean verifyPassword(String inputPassword) {
+        return this.password != null && this.password.equals(inputPassword);
+    }
+
 }
