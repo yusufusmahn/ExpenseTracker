@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UserNotFoundException("User with email " + normalizedEmail + " not found");
         }
-        if (!user.getPassword().equals(Mapper.convertToLowerCase(request.getPassword()))) {
+        if (!user.verifyPassword(Mapper.convertToLowerCase(request.getPassword()))){
             throw new InvalidUserException("Invalid password");
         }
         return Mapper.toLoginResponse(user);
