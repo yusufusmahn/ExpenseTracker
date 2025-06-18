@@ -85,5 +85,16 @@ public class ExpenseController {
     }
 
 
+    @GetMapping("/{expenseId}")
+    public ResponseEntity<ApiResponse> getExpenseById(@PathVariable("expenseId") String expenseId) {
+        try {
+            SearchExpensesResponse response = expenseService.getExpenseById(expenseId);
+            return new ResponseEntity<>(new ApiResponse(response, true), HttpStatus.OK);
+        } catch (ExpenseTracker e) {
+            return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.NOT_FOUND);
+        }
+    }
+
+
 
 }
