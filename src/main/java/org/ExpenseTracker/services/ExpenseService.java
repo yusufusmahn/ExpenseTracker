@@ -12,5 +12,6 @@ public interface ExpenseService {
     CreateExpenseResponse updateExpense(String expenseId, CreateExpenseRequest request);
     boolean deleteExpense(String expenseId);
     List<SearchExpensesResponse> searchExpenses(String userId, String category);
+    SearchExpensesResponse getExpenseById(String expenseId);
 
 }
