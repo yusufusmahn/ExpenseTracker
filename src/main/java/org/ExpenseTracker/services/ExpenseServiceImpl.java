@@ -111,6 +111,18 @@ public class ExpenseServiceImpl implements ExpenseService {
         return responses;
     }
 
+
+    @Override
+    public SearchExpensesResponse getExpenseById(String expenseId) {
+        if (expenseId == null || expenseId.trim().isEmpty()) {
+            throw new InvalidExpenseException("Expense ID is required");
+        }
+        Expense expense = expenseRepository.findById(expenseId)
+                .orElseThrow(() -> new ExpenseNotFoundException("Expense with ID " + expenseId + " not found"));
+        return Mapper.toSearchExpensesResponse(expense);
+    }
+
+
     private void validateAddExpenseRequest(CreateExpenseRequest request) {
         if (request.getAmount() <= 0) {
             throw new InvalidExpenseException("Amount must be positive");
