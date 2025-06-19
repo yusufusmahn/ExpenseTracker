@@ -49,7 +49,7 @@ class UserServiceImplTest {
         RegisterRequest request1 = new RegisterRequest();
         request1.setUsername("user1");
         request1.setEmail("duplicate@gmail.com");
-        request1.setPassword("pass");
+        request1.setPassword("password");
         userService.registerUser(request1);
 
         RegisterRequest request2 = new RegisterRequest();
