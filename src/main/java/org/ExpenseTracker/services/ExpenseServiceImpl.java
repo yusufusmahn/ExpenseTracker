@@ -32,7 +32,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public List<SearchExpensesResponse> getExpensesByUserId(String userId) {
         if (userId == null || userId.trim().isEmpty()) {
-            throw new InvalidExpenseException("User ID is required");
+            throw new InvalidExpenseExceptionException("User ID is required");
         }
         List<Expense> expenses = expenseRepository.findByUserId(userId);
         List<SearchExpensesResponse> responses = new ArrayList<>();
@@ -45,7 +45,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public double calculateTotal(String userId) {
         if (userId == null || userId.trim().isEmpty()) {
-            throw new InvalidExpenseException("User ID is required");
+            throw new InvalidExpenseExceptionException("User ID is required");
         }
         double total = 0;
         for (Expense expense : expenseRepository.findByUserId(userId)) {
@@ -57,11 +57,11 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public CreateExpenseResponse updateExpense(String expenseId, CreateExpenseRequest request) {
         if (expenseId == null || expenseId.trim().isEmpty()) {
-            throw new InvalidExpenseException("Expense ID is required");
+            throw new InvalidExpenseExceptionException("Expense ID is required");
         }
         Expense expense = expenseRepository.findById(expenseId).orElse(null);
         if (expense == null) {
-            throw new ExpenseNotFoundException("Expense with ID " + expenseId + " not found");
+            throw new ExpenseNotFoundExceptionException("Expense with ID " + expenseId + " not found");
         }
         validateAddExpenseRequest(request);
         expense.setAmount(request.getAmount());
@@ -76,10 +76,10 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public boolean deleteExpense(String expenseId) {
         if (expenseId == null || expenseId.trim().isEmpty()) {
-            throw new InvalidExpenseException("Expense ID is required");
+            throw new InvalidExpenseExceptionException("Expense ID is required");
         }
         if (!expenseRepository.existsById(expenseId)) {
-            throw new ExpenseNotFoundException("Expense with ID " + expenseId + " not found");
+            throw new ExpenseNotFoundExceptionException("Expense with ID " + expenseId + " not found");
         }
         expenseRepository.deleteById(expenseId);
         return true;
@@ -88,7 +88,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public List<SearchExpensesResponse> searchExpenses(String userId, String category) {
         if (userId == null || userId.trim().isEmpty()) {
-            throw new InvalidExpenseException("User ID is required");
+            throw new InvalidExpenseExceptionException("User ID is required");
         }
         List<Expense> expenses = expenseRepository.findByUserId(userId);
         List<SearchExpensesResponse> responses = new ArrayList<>();
@@ -106,7 +106,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         }
 
         if (responses.isEmpty()) {
-            throw new ExpenseNotFoundException("No expenses found for the given criteria");
+            throw new ExpenseNotFoundExceptionException("No expenses found for the given criteria");
         }
         return responses;
     }
@@ -115,23 +115,23 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public SearchExpensesResponse getExpenseById(String expenseId) {
         if (expenseId == null || expenseId.trim().isEmpty()) {
-            throw new InvalidExpenseException("Expense ID is required");
+            throw new InvalidExpenseExceptionException("Expense ID is required");
         }
         Expense expense = expenseRepository.findById(expenseId)
-                .orElseThrow(() -> new ExpenseNotFoundException("Expense with ID " + expenseId + " not found"));
+                .orElseThrow(() -> new ExpenseNotFoundExceptionException("Expense with ID " + expenseId + " not found"));
         return Mapper.toSearchExpensesResponse(expense);
     }
 
 
     private void validateAddExpenseRequest(CreateExpenseRequest request) {
         if (request.getAmount() <= 0) {
-            throw new InvalidExpenseException("Amount must be positive");
+            throw new InvalidExpenseExceptionException("Amount must be positive");
         }
         if (request.getDate() == null || request.getDate().isBefore(LocalDateTime.now())) {
-            throw new InvalidExpenseException("Date and time must be now or in the future");
+            throw new InvalidExpenseExceptionException("Date and time must be now or in the future");
         }
         if (request.getCategory() == null || request.getCategory().trim().isEmpty()) {
-            throw new InvalidExpenseException("Category is required");
+            throw new InvalidExpenseExceptionException("Category is required");
         }
     }
 }
