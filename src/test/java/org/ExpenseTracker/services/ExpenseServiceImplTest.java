@@ -36,12 +36,12 @@ public class ExpenseServiceImplTest {
 
         RegisterRequest userRequest = new RegisterRequest();
         userRequest.setUsername("testuser");
-        userRequest.setEmail("test@example.com");
+        userRequest.setEmail("test@gmail.com");
         userRequest.setPassword("password123");
         userService.registerUser(userRequest);
 
-        assertNotNull(userService.getUserByEmail("test@example.com"));
-        LoginResponse user = userService.getUserByEmail("test@example.com");
+        assertNotNull(userService.getUserByEmail("test@gmail.com"));
+        LoginResponse user = userService.getUserByEmail("test@gmail.com");
         assertNotNull(user.getId());
 
         expenseRepository.deleteAll();
@@ -55,7 +55,7 @@ public class ExpenseServiceImplTest {
         request.setCategory("Food");
         request.setDescription("Dinner");
 
-        CreateExpenseResponse response = expenseService.addExpenseResponse(request, userService.getUserByEmail("test@example.com").getId());
+        CreateExpenseResponse response = expenseService.addExpenseResponse(request, userService.getUserByEmail("test@gmail.com").getId());
 
         assertNotNull(response);
         assertNotNull(response.getId());
@@ -72,7 +72,7 @@ public class ExpenseServiceImplTest {
         request.setDescription("Dinner");
 
         assertThrows(InvalidExpenseException.class, () ->
-            expenseService.addExpenseResponse(request, userService.getUserByEmail("test@example.com").getId()));
+            expenseService.addExpenseResponse(request, userService.getUserByEmail("test@gmail.com").getId()));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class ExpenseServiceImplTest {
         request.setDate(LocalDateTime.now().plusDays(1));
         request.setCategory("Food");
         request.setDescription("Dinner");
-        String userId = userService.getUserByEmail("test@example.com").getId();
+        String userId = userService.getUserByEmail("test@gmail.com").getId();
         expenseService.addExpenseResponse(request, userId);
 
         List<SearchExpensesResponse> responses = expenseService.getExpensesByUserId(userId);
@@ -104,7 +104,7 @@ public class ExpenseServiceImplTest {
         initialRequest.setDate(LocalDateTime.now().plusDays(1));
         initialRequest.setCategory("Food");
         initialRequest.setDescription("Dinner");
-        String userId = userService.getUserByEmail("test@example.com").getId();
+        String userId = userService.getUserByEmail("test@gmail.com").getId();
         CreateExpenseResponse initialResponse = expenseService.addExpenseResponse(initialRequest, userId);
         String expenseId = initialResponse.getId();
 
@@ -134,7 +134,7 @@ public class ExpenseServiceImplTest {
 
     @Test
     public void testSearchExpenses_Success() {
-        String userId = userService.getUserByEmail("test@example.com").getId();
+        String userId = userService.getUserByEmail("test@gmail.com").getId();
         CreateExpenseRequest request1 = new CreateExpenseRequest();
         request1.setAmount(100.0);
         request1.setDate(LocalDateTime.now().plusDays(1));
@@ -158,7 +158,7 @@ public class ExpenseServiceImplTest {
 
     @Test
     public void testSearchExpenses_NoMatch() {
-        String userId = userService.getUserByEmail("test@example.com").getId();
+        String userId = userService.getUserByEmail("test@gmail.com").getId();
         CreateExpenseRequest request = new CreateExpenseRequest();
         request.setAmount(100.0);
         request.setDate(LocalDateTime.now().plusDays(1));
