@@ -22,7 +22,7 @@ public class UserController {
         try {
             RegisterResponse response = userService.registerUser(request);
             return new ResponseEntity<>(new ApiResponse(response, true), HttpStatus.CREATED);
-        } catch (ExpenseTracker e) {
+        } catch (ExpenseTrackerException e) {
             return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.BAD_REQUEST);
         }
     }
@@ -33,7 +33,7 @@ public class UserController {
         try {
             LoginResponse response = userService.login(request);
             return new ResponseEntity<>(new ApiResponse(response, true), HttpStatus.OK);
-        } catch (ExpenseTracker e) {
+        } catch (ExpenseTrackerException e) {
             return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.NOT_FOUND);
         }
     }
@@ -44,7 +44,7 @@ public class UserController {
         try {
             CreateExpenseResponse response = userService.addExpense(email, request);
             return new ResponseEntity<>(new ApiResponse(response, true), HttpStatus.OK);
-        } catch (ExpenseTracker e) {
+        } catch (ExpenseTrackerException e) {
             return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.NOT_FOUND);
         }
     }
@@ -55,7 +55,7 @@ public class UserController {
         try {
             LoginResponse response = userService.getUserByEmail(email);
             return new ResponseEntity<>(new ApiResponse(response, true), HttpStatus.OK);
-        } catch (ExpenseTracker e) {
+        } catch (ExpenseTrackerException e) {
             return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.NOT_FOUND);
         }
     }
