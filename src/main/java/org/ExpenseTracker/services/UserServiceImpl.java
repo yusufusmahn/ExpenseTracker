@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UserNotFoundException("User with email " + normalizedEmail + " not found");
         }
-        if (!user.verifyPassword(Mapper.convertToLowerCase(request.getPassword()))){
+        if (!user.verifyPassword(request.getPassword())){
             throw new InvalidUserException("Invalid password");
         }
         return Mapper.toLoginResponse(user);
@@ -90,13 +90,13 @@ public class UserServiceImpl implements UserService {
 
     private void validateAddExpenseRequest(CreateExpenseRequest request) {
         if (request.getAmount() <= 0) {
-            throw new InvalidExpenseException("Amount must be positive");
+            throw new InvalidExpenseExceptionException("Amount must be positive");
         }
         if (request.getDate() == null || request.getDate().isBefore(LocalDateTime.now())) {
-            throw new InvalidExpenseException("Date and time must be now or in the future");
+            throw new InvalidExpenseExceptionException("Date and time must be now or in the future");
         }
         if (request.getCategory() == null || request.getCategory().trim().isEmpty()) {
-            throw new InvalidExpenseException("Category is required");
+            throw new InvalidExpenseExceptionException("Category is required");
         }
     }
 }
