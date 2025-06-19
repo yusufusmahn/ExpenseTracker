@@ -35,7 +35,7 @@ public class ExpenseController {
         try {
             double total = expenseService.calculateTotal(userId);
             return new ResponseEntity<>(new ApiResponse(total, true), HttpStatus.OK);
-        } catch (ExpenseTracker e) {
+        } catch (ExpenseTrackerException e) {
             return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.NOT_FOUND);
         }
     }
@@ -45,7 +45,7 @@ public class ExpenseController {
         try {
             List<SearchExpensesResponse> responses = expenseService.getExpensesByUserId(userId);
             return new ResponseEntity<>(new ApiResponse(responses, true), HttpStatus.OK);
-        } catch (ExpenseTracker e) {
+        } catch (ExpenseTrackerException e) {
             return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.NOT_FOUND);
         }
     }
@@ -55,7 +55,7 @@ public class ExpenseController {
         try {
             CreateExpenseResponse response = expenseService.updateExpense(expenseId, request);
             return new ResponseEntity<>(new ApiResponse(response, true), HttpStatus.OK);
-        } catch (ExpenseTracker e) {
+        } catch (ExpenseTrackerException e) {
             return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.NOT_FOUND);
         }
     }
@@ -65,7 +65,7 @@ public class ExpenseController {
         try {
             boolean deleted = expenseService.deleteExpense(expenseId);
             return new ResponseEntity<>(new ApiResponse(deleted, true), HttpStatus.OK);
-        } catch (ExpenseTracker e) {
+        } catch (ExpenseTrackerException e) {
             return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.NOT_FOUND);
         }
     }
@@ -79,7 +79,7 @@ public class ExpenseController {
         try {
             List<SearchExpensesResponse> responses = expenseService.searchExpenses(userId, category);
             return new ResponseEntity<>(new ApiResponse(responses, true), HttpStatus.OK);
-        } catch (ExpenseTracker e) {
+        } catch (ExpenseTrackerException e) {
             return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.NOT_FOUND);
         }
     }
@@ -90,7 +90,7 @@ public class ExpenseController {
         try {
             SearchExpensesResponse response = expenseService.getExpenseById(expenseId);
             return new ResponseEntity<>(new ApiResponse(response, true), HttpStatus.OK);
-        } catch (ExpenseTracker e) {
+        } catch (ExpenseTrackerException e) {
             return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.NOT_FOUND);
         }
     }
