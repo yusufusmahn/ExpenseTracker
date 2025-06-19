@@ -1,6 +1,6 @@
 package org.ExpenseTracker.exceptions;
 
-public class InvalidUserException extends ExpenseTracker {
+public class InvalidUserException extends ExpenseTrackerException {
     public InvalidUserException(String message) {
         super(message);
     }
