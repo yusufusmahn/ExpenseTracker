@@ -32,30 +32,30 @@ class UserServiceImplTest {
     void testRegisterUser_Success() {
         RegisterRequest request = new RegisterRequest();
         request.setUsername("Testuser");
-        request.setEmail("TEST@EXAMPLE.COM");
-        request.setPassword("password123");
+        request.setEmail("TEST@GMAIL.COM");
+        request.setPassword("password");
 
         RegisterResponse response = userService.registerUser(request);
 
         assertNotNull(response);
         assertNotNull(response.getId());
         assertEquals("Testuser", response.getUsername());
-        assertEquals("test@example.com", response.getEmail());
-        assertNotNull(userRepository.findByEmail("test@example.com"));
+        assertEquals("test@gmail.com", response.getEmail());
+        assertNotNull(userRepository.findByEmail("test@gmail.com"));
     }
 
     @Test
     void testRegisterUser_DuplicateEmail() {
         RegisterRequest request1 = new RegisterRequest();
         request1.setUsername("user1");
-        request1.setEmail("duplicate@example.com");
-        request1.setPassword("pass123");
+        request1.setEmail("duplicate@gmail.com");
+        request1.setPassword("pass");
         userService.registerUser(request1);
 
         RegisterRequest request2 = new RegisterRequest();
         request2.setUsername("user2");
-        request2.setEmail("DUPLICATE@EXAMPLE.COM");
-        request2.setPassword("pass456");
+        request2.setEmail("DUPLICATE@GMAIL.COM");
+        request2.setPassword("password");
 
         assertThrows(InvalidUserException.class, () -> userService.registerUser(request2));
     }
@@ -64,30 +64,30 @@ class UserServiceImplTest {
     void testLogin_Success() {
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("testuser");
-        registerRequest.setEmail("test@example.com");
-        registerRequest.setPassword("password123");
+        registerRequest.setEmail("test@gmail.com");
+        registerRequest.setPassword("password");
         userService.registerUser(registerRequest);
 
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("test@example.com");
-        loginRequest.setPassword("password123");
+        loginRequest.setEmail("test@gmail.com");
+        loginRequest.setPassword("password");
 
         LoginResponse response = userService.login(loginRequest);
 
         assertNotNull(response);
-        assertEquals("test@example.com", response.getEmail());
+        assertEquals("test@gmail.com", response.getEmail());
     }
 
     @Test
     void testLogin_InvalidPassword() {
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("testuser");
-        registerRequest.setEmail("test@example.com");
-        registerRequest.setPassword("password123");
+        registerRequest.setEmail("test@gmail.com");
+        registerRequest.setPassword("password");
         userService.registerUser(registerRequest);
 
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("test@example.com");
+        loginRequest.setEmail("test@gmail.com");
         loginRequest.setPassword("wrongpass");
 
         assertThrows(InvalidUserException.class, () -> userService.login(loginRequest));
@@ -97,8 +97,8 @@ class UserServiceImplTest {
     void testAddExpense_Success() {
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("testuser");
-        registerRequest.setEmail("test@example.com");
-        registerRequest.setPassword("password123");
+        registerRequest.setEmail("test@gmail.com");
+        registerRequest.setPassword("password");
         userService.registerUser(registerRequest);
 
         CreateExpenseRequest expenseRequest = new CreateExpenseRequest();
@@ -107,11 +107,11 @@ class UserServiceImplTest {
         expenseRequest.setCategory("Food");
         expenseRequest.setDescription("Dinner");
 
-        CreateExpenseResponse response = userService.addExpense("test@example.com", expenseRequest);
+        CreateExpenseResponse response = userService.addExpense("test@gmail.com", expenseRequest);
 
         assertNotNull(response);
         assertNotNull(response.getId());
-        assertEquals("test@example.com", userRepository.findById(response.getUserId()).get().getEmail());
+        assertEquals("test@gmail.com", userRepository.findById(response.getUserId()).get().getEmail());
     }
 
     @Test
@@ -122,25 +122,25 @@ class UserServiceImplTest {
         expenseRequest.setCategory("Food");
         expenseRequest.setDescription("Dinner");
 
-        assertThrows(UserNotFoundException.class, () -> userService.addExpense("nonexistent@example.com", expenseRequest));
+        assertThrows(UserNotFoundException.class, () -> userService.addExpense("nonexistent@gmail.com", expenseRequest));
     }
 
     @Test
     void testGetUserByEmail_Success() {
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setUsername("testuser");
-        registerRequest.setEmail("test@example.com");
-        registerRequest.setPassword("password123");
+        registerRequest.setEmail("test@gmail.com");
+        registerRequest.setPassword("password");
         userService.registerUser(registerRequest);
 
-        LoginResponse response = userService.getUserByEmail("test@example.com");
+        LoginResponse response = userService.getUserByEmail("test@gmail.com");
 
         assertNotNull(response);
-        assertEquals("test@example.com", response.getEmail());
+        assertEquals("test@gmail.com", response.getEmail());
     }
 
     @Test
     void testGetUserByEmail_NotFound() {
-        assertThrows(UserNotFoundException.class, () -> userService.getUserByEmail("nonexistent@example.com"));
+        assertThrows(UserNotFoundException.class, () -> userService.getUserByEmail("nonexistent@gmail.com"));
     }
 }
