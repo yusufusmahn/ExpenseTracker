@@ -37,7 +37,7 @@ public class ExpenseServiceImplTest {
         RegisterRequest userRequest = new RegisterRequest();
         userRequest.setUsername("testuser");
         userRequest.setEmail("test@gmail.com");
-        userRequest.setPassword("password123");
+        userRequest.setPassword("password");
         userService.registerUser(userRequest);
 
         assertNotNull(userService.getUserByEmail("test@gmail.com"));
@@ -71,7 +71,7 @@ public class ExpenseServiceImplTest {
         request.setCategory("Food");
         request.setDescription("Dinner");
 
-        assertThrows(InvalidExpenseException.class, () ->
+        assertThrows(InvalidExpenseExceptionException.class, () ->
             expenseService.addExpenseResponse(request, userService.getUserByEmail("test@gmail.com").getId()));
     }
 
@@ -94,7 +94,7 @@ public class ExpenseServiceImplTest {
 
     @Test
     public void testGetExpensesByUserId_InvalidUserId() {
-        assertThrows(InvalidExpenseException.class, () -> expenseService.getExpensesByUserId(null));
+        assertThrows(InvalidExpenseExceptionException.class, () -> expenseService.getExpensesByUserId(null));
     }
 
     @Test
@@ -129,7 +129,7 @@ public class ExpenseServiceImplTest {
         request.setCategory("Travel");
         request.setDescription("Trip");
 
-        assertThrows(ExpenseNotFoundException.class, () -> expenseService.updateExpense("nonexistentId", request));
+        assertThrows(ExpenseNotFoundExceptionException.class, () -> expenseService.updateExpense("nonexistentId", request));
     }
 
     @Test
@@ -166,6 +166,6 @@ public class ExpenseServiceImplTest {
         request.setDescription("Dinner");
         expenseService.addExpenseResponse(request, userId);
 
-        assertThrows(ExpenseNotFoundException.class, () -> expenseService.searchExpenses(userId, "Travel"));
+        assertThrows(ExpenseNotFoundExceptionException.class, () -> expenseService.searchExpenses(userId, "Travel"));
     }
 }
